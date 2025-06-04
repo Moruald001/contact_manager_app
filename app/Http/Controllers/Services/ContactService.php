@@ -41,6 +41,7 @@ class ContactService {
 
   }
 
+  //suppression d'un contact
   public function deleteContact(Contact $contact) {
     $user =Auth::user();
     if(!$user || $contact->user_id !== $user->id){
