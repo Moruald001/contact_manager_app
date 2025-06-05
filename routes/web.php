@@ -22,11 +22,11 @@ Route::middleware(['auth','verified'])->group(function(){
 
     Route::resource('contact', ContactController::class);
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('proifle.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('proifle.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('proifle.destroy');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
 
