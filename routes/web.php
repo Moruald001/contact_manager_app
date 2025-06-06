@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Contact;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -20,7 +20,7 @@ Route::middleware(['auth','verified'])->group(function(){
         ]);
     })->name('dashboard');
 
-    Route::resource('contact', ContactController::class);
+    Route::resource('contact', Contact::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 

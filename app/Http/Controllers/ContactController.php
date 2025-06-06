@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 
-class ContactController extends Controller
+class Contact extends Controller
 {
     //
 

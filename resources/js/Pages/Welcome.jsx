@@ -96,7 +96,7 @@ export default function Welcome({ auth }) {
             </section>
 
             <footer className="border-t border-t-gray-300 bg-white">
-                <div className="auto px6 flex max-w-7xl items-center justify-center p-8">
+                <div className="auto px6 flex max-w-full items-center justify-center p-8">
                     <p className="text-center text-sm text-gray-500">
                         &copy;{new Date().getFullYear()}
                     </p>
