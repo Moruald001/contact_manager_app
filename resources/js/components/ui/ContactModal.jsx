@@ -18,7 +18,6 @@ import * as yup from 'yup';
 export default function ContactModal({
     showModal,
     modalTypes,
-    selectedModal,
     onClose,
     contact,
 }) {

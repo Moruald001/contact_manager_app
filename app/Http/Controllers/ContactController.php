@@ -78,7 +78,7 @@ class ContactController extends Controller
         $this->authorize('update', $contact);
         $validated = $request->validated();
         $this->contactService->updateContact($contact,$validated);
-        return Redirect::route('showContact')->with('succes','contact              mise a jour à avec succès');
+        return Redirect::route('dashboard')->with('succes','contact              mise a jour à avec succès');
         
     }
 
