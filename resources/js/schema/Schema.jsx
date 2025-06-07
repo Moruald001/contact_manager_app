@@ -5,7 +5,7 @@ export const Schema = yup
     .shape({
         firstname: yup.string().required('Veuillez entrer un prenom'),
         lastname: yup.string().required('Veuillez entrer un nom'),
-        email: yup.email().required('Email invalide'),
+        email: yup.string().email().required('Email invalide'),
         phoneNumber: yup.string().nullable(),
         notes: yup.string().nullable(),
         image_path: yup

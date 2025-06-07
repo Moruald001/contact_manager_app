@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact as ModelsContact;
-use ContactService;
+use App\Services\ContactService;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 
-class Contact extends Controller
+class ContactController extends Controller
 {
     //
 
@@ -30,9 +30,9 @@ class Contact extends Controller
     //on recupere les contactes depuis le service pour le renvoyer a la vue
     public function index()
     {
-        $contact = $this->contactService->getAllContacts();
+        $contacts = $this->contactService->getAllContacts();
 
-        return Inertia::render('Dashboard', ['contacts' => $contact]);
+        return Inertia::render('Dashboard', ['contacts' => $contacts]);
     }
 
     //affichage de la vue pour créer un contact

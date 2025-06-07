@@ -1,23 +1,27 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import ContactList from '@/components/ui/ContactList';
 import ContactModal from '@/components/ui/ContactModal';
+
 import { Button } from '@/components/ui/button';
 import { Head } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
-export default function Dashboard({ contact }) {
+export default function Dashboard({ contacts }) {
     const [showModal, setShowModal] = useState(false);
-    const [selectedContact, setSelectedContact] = useState();
+    const [selectedContact, setSelectedContact] = useState(undefined);
     const [modalTypes, setModaltypes] = useState('create');
 
     const handleCreate = () => {
         setModaltypes('create');
-        setSelectedContact(undefined), setShowModal(true);
+        setSelectedContact(undefined);
+        setShowModal(true);
     };
 
     const handleEdit = (contact) => {
         setModaltypes('edit');
-        setSelectedContact(contact), setShowModal(true);
+        setSelectedContact(contact);
+        setShowModal(true);
     };
 
     return (
@@ -43,13 +47,13 @@ export default function Dashboard({ contact }) {
                                 Nouveau contact
                             </Button>
                         </div>
-                        {/* <ContactList contact={contact} onEdit={handleEdit} /> */}
                         <ContactModal
                             showModal={showModal}
                             modalTypes={modalTypes}
                             contact={selectedContact}
                             onClose={() => setShowModal(false)}
                         />
+                        <ContactList contacts={contacts} onEdit={handleEdit} />
                     </div>
                 </div>
             </div>

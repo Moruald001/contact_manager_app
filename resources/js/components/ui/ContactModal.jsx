@@ -10,14 +10,14 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 
+import { Schema } from '@/schema/Schema';
 import { router, useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
 import * as yup from 'yup';
-import { Schema } from 'yup';
 
 export default function ContactModal({
     showModal,
-    modalType,
+    modalTypes,
     selectedModal,
     onClose,
     contact,
@@ -32,7 +32,7 @@ export default function ContactModal({
     });
 
     useEffect(() => {
-        if (contact && modalType === 'edit') {
+        if (contact && modalTypes === 'edit') {
             setData({
                 firstname: contact.firstname,
                 lastname: contact.lastname,
@@ -41,31 +41,34 @@ export default function ContactModal({
                 notes: contact.notes,
                 image_path: contact.image_path,
             });
-        } else if (contact && modalType === 'create') {
+        } else if (contact && modalTypes === 'create') {
             reset();
         }
-    }, [contact, showModal, modalType]);
+    }, [contact, showModal, modalTypes]);
 
     const validatedForm = async () => {
         try {
             await Schema.validate(data, { abortEarly: false });
-            return true;
+            return { isValid: true, errors: {} };
         } catch (error) {
             if (error instanceof yup.ValidationError) {
                 const validationErrors = {};
-                error.inner.foreach((error) => {
-                    if (error.path) {
-                        validationErrors[error.path] = error.message;
+                error.inner.forEach((err) => {
+                    if (err.path) {
+                        validationErrors[err.path] = err.message;
                     }
                 });
-                return false;
+                return { isValid: false, errors: validationErrors };
             }
 
-            return false;
+            return {
+                isValid: false,
+                errors: { general: 'Une erreur inattendue est survenue.' },
+            };
         }
     };
 
-    const handleSubmit = async (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const isValid = await validatedForm();
 
@@ -73,16 +76,16 @@ export default function ContactModal({
             return;
         }
 
-        if (modalType === 'create') {
-            post(route('contact.store'), {
+        if (modalTypes === 'create') {
+            post(route('contacts.store'), {
                 preserveScroll: true,
                 onSuccess: () => {
                     handleClose();
-                    router.reload;
+                    router.reload();
                 },
             });
         } else {
-            put(route('contact.update', contact?.id), {
+            put(route('contacts.update', contact?.id), {
                 preserveScroll: true,
                 onSuccess: () => {
                     handleClose();
@@ -96,23 +99,24 @@ export default function ContactModal({
     };
 
     const handleClose = () => {
-        if (modalType === 'create') {
+        if (modalTypes === 'create') {
             reset();
         }
-        console.log(data.image_path);
+
         onClose();
     };
+
     return (
         <Dialog open={showModal} onOpenChange={handleClose}>
             <DialogContent className="max-w-[435px]">
                 <DialogHeader>
                     <DialogTitle>
-                        {modalType === 'create'
+                        {modalTypes === 'create'
                             ? 'Nouveau contact'
                             : 'Modifier contact'}
                     </DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={onSubmit} className="space-y-4">
                     <div className="grid-cols2 grid gap-4">
                         <div className="space-y-4">
                             <Label htmlFor="firstname">Prenom</Label>
@@ -193,13 +197,14 @@ export default function ContactModal({
                         </div>
                         <div className="space-y-4">
                             <Label htmlFor="image_path">image</Label>
-                            <input
+                            <Input
                                 id="image_path"
                                 type="file"
                                 value={data.image_path}
                                 onChange={(e) =>
                                     setData('image_path', e.target.value)
                                 }
+                                className="border-gray-500"
                             />
                             {errors.image_path && (
                                 <p className="text-sm text-red-500"></p>
@@ -214,12 +219,8 @@ export default function ContactModal({
                         >
                             Annuler
                         </Button>
-                        <Button
-                            variant={'outline'}
-                            type="button"
-                            onClick={handleClose}
-                        >
-                            Annuler
+                        <Button disabled={processing} type="submit">
+                            {modalTypes === 'create' ? 'Créer' : 'Modifier'}
                         </Button>
                     </div>
                 </form>
