@@ -3,7 +3,7 @@ import ContactList from '@/components/ui/ContactList';
 import ContactModal from '@/components/ui/ContactModal';
 
 import { Button } from '@/components/ui/button';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
@@ -11,6 +11,9 @@ export default function Dashboard({ contacts }) {
     const [showModal, setShowModal] = useState(false);
     const [selectedContact, setSelectedContact] = useState(undefined);
     const [modalTypes, setModaltypes] = useState('create');
+    const { props } = usePage();
+    const message = props.flash?.success;
+    console.log(props);
 
     const handleCreate = () => {
         setModaltypes('create');
@@ -33,6 +36,11 @@ export default function Dashboard({ contacts }) {
             }
         >
             <Head title="Dashboard" />
+            {message && (
+                <div className="rounded bg-green-100 p-2 text-green-800">
+                    {message}
+                </div>
+            )}
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

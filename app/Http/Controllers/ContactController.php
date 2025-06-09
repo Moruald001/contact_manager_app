@@ -90,7 +90,7 @@ class ContactController extends Controller
         $this->authorize('update', $contact);
         $validated = $request->validated();
         $this->contactService->updateContact($contact,$validated);
-        return Redirect::route('dashboard')->with('succes','contact              mise a jour à avec succès');
+        return Redirect::route('dashboard')->with('success','contact mise a jour à avec succès');
         
     }
 
@@ -99,7 +99,7 @@ class ContactController extends Controller
     public function destroy(ModelsContact $contact){
         $this->authorize('delete', $contact);
         $this->contactService->deleteContact($contact);
-        return Redirect::route('dashboard')->with('succes','contact supprimé avec succès');
+        return Redirect::route('dashboard')->with('success','contact supprimé avec succès');
     }
 
 
