@@ -16,43 +16,36 @@ import { Edit, Eye, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 export default function ContactList({ contacts, onEdit }) {
-    const [searchTerm, setSearchTerm] = useState('');
     const [contactsFound, setContactsFound] = useState({});
     const [message, setMessage] = useState('');
 
-    const handleChange = (event) => {
-        const term = event.target.value.trim();
-        setSearchTerm(term);
-        console.log(term);
-    };
-
     const handleSearch = (event) => {
         event.preventDefault();
+        setMessage('');
         setContactsFound({});
-        if (searchTerm.trim() === '') {
+        const term = new FormData(event.target).get('search');
+
+        if (term === '') {
             setContactsFound({});
             setMessage('Veuillez entrer un nom de contact pour la recherche');
             return;
         }
+
         if (
             contacts.some(
                 (contact) =>
                     contact.firstname
                         .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) ||
-                    contact.lastname
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase()),
+                        .includes(term.toLowerCase()) ||
+                    contact.lastname.toLowerCase().includes(term.toLowerCase()),
             )
         ) {
             const foundContact = contacts.find(
                 (contact) =>
                     contact.firstname
                         .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) ||
-                    contact.lastname
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase()),
+                        .includes(term.toLowerCase()) ||
+                    contact.lastname.toLowerCase().includes(term.toLowerCase()),
             );
             setContactsFound((prev) => ({
                 ...prev,
@@ -84,8 +77,6 @@ export default function ContactList({ contacts, onEdit }) {
                         name="search"
                         className="mx-10 mb-5 w-[40vw] shadow-md"
                         placeholder="Entrez le nom d'un contact"
-                        value={searchTerm}
-                        onChange={handleChange}
                     />
                     <Button type="submit">Rechercher</Button>
                 </div>
