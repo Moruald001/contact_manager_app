@@ -11,6 +11,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 
 class ContactController extends Controller
@@ -43,19 +44,30 @@ class ContactController extends Controller
             'modalType' => 'create'
         ]);
     }
+
+    
     // enregistrement d'un contact et redirection 
     public function store(StoreContactRequest $request){
 
         $validate = $request->validated();
+        
+        if($request->hasFile('image_path')){
+            
+            $validate['image_path'] = $request->file('image_path')->store('images', 'public');
+
+        }
+    
         $this->contactService->creatContact($validate);
         return Redirect::route('dashboard')->with('success','Contact créé avec succès');
 
     }
+
+
      // affichage en details d'un contact
     public function show(ModelsContact $contact){
 
         $this->authorize('view', $contact);
-        return Inertia::render('showContact',[
+        return Inertia::render('ShowContact',[
             'contact' => $contact
         ]);
     }

@@ -78,6 +78,7 @@ export default function ContactModal({
         if (modalTypes === 'create') {
             post(route('contacts.store'), {
                 preserveScroll: true,
+                forceFormData: true,
                 onSuccess: () => {
                     handleClose();
                     router.reload();
@@ -86,6 +87,7 @@ export default function ContactModal({
         } else {
             put(route('contacts.update', contact?.id), {
                 preserveScroll: true,
+                forceFormData: true,
                 onSuccess: () => {
                     handleClose();
                     router.reload();
@@ -96,6 +98,8 @@ export default function ContactModal({
             });
         }
     };
+
+    console.log(contact);
 
     const handleClose = () => {
         if (modalTypes === 'create') {
@@ -128,7 +132,9 @@ export default function ContactModal({
                                 className={errors.firstname && 'border-red-500'}
                             />
                             {errors.firstname && (
-                                <p className="text-sm text-red-500"></p>
+                                <p className="text-sm text-red-500">
+                                    {errors.firstname}
+                                </p>
                             )}
                         </div>
                         <div className="space-y-4">
@@ -142,7 +148,9 @@ export default function ContactModal({
                                 className={errors.lastname && 'border-red-500'}
                             />
                             {errors.lastname && (
-                                <p className="text-sm text-red-500"></p>
+                                <p className="text-sm text-red-500">
+                                    {errors.lastname}
+                                </p>
                             )}
                         </div>
                         <div className="space-y-4">
@@ -156,7 +164,9 @@ export default function ContactModal({
                                 className={errors.email && 'border-red-500'}
                             />
                             {errors.email && (
-                                <p className="text-sm text-red-500"></p>
+                                <p className="text-sm text-red-500">
+                                    {errors.email}
+                                </p>
                             )}
                         </div>
                         <div className="space-y-4">
@@ -174,7 +184,9 @@ export default function ContactModal({
                                 }
                             />
                             {errors.phoneNumber && (
-                                <p className="text-sm text-red-500"></p>
+                                <p className="text-sm text-red-500">
+                                    {errors.phoneNumber}
+                                </p>
                             )}
                         </div>
                         <div className="space-y-4">
@@ -191,7 +203,9 @@ export default function ContactModal({
                                 }
                             />
                             {errors.notes && (
-                                <p className="text-sm text-red-500"></p>
+                                <p className="text-sm text-red-500">
+                                    {errros.notes}
+                                </p>
                             )}
                         </div>
                         <div className="space-y-4">
@@ -199,14 +213,16 @@ export default function ContactModal({
                             <Input
                                 id="image_path"
                                 type="file"
-                                value={data.image_path}
                                 onChange={(e) =>
-                                    setData('image_path', e.target.value)
+                                    setData('image_path', e.target.files[0])
                                 }
                                 className="border-gray-500"
+                                name="image_path"
                             />
                             {errors.image_path && (
-                                <p className="text-sm text-red-500"></p>
+                                <p className="text-sm text-red-500">
+                                    {errors.image_path}
+                                </p>
                             )}
                         </div>
                     </div>
