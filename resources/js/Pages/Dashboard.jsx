@@ -36,7 +36,7 @@ export default function Dashboard({ contacts }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div className="overflow-hidden rounded-lg bg-white shadow-sm">
                         <div className="p-6 text-gray-900">
                             <h2 className="text-2xl font-semibold text-gray-900">
                                 Mes contacts

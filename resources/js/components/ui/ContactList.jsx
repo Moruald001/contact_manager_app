@@ -18,6 +18,7 @@ import { useState } from 'react';
 export default function ContactList({ contacts, onEdit }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [contactsFound, setContactsFound] = useState({});
+    const [message, setMessage] = useState('');
 
     const handleChange = (event) => {
         const term = event.target.value.trim();
@@ -30,6 +31,7 @@ export default function ContactList({ contacts, onEdit }) {
         setContactsFound({});
         if (searchTerm.trim() === '') {
             setContactsFound({});
+            setMessage('Veuillez entrer un nom de contact pour la recherche');
             return;
         }
         if (
@@ -66,7 +68,7 @@ export default function ContactList({ contacts, onEdit }) {
     };
 
     return (
-        <div className="rounded-md border p-10">
+        <div className="mt-10 rounded-md border p-20">
             <form
                 onSubmit={handleSearch}
                 className="flex flex-col items-start justify-between"
@@ -87,8 +89,9 @@ export default function ContactList({ contacts, onEdit }) {
                     />
                     <Button type="submit">Rechercher</Button>
                 </div>
+                {message && <p className="ml-10 text-red-400">{message}</p>}
             </form>
-            <Table>
+            <Table className="mt-10">
                 <TableHeader>
                     <TableRow>
                         <TableHead>Nom</TableHead>
