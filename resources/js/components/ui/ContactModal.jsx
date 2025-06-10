@@ -99,8 +99,6 @@ export default function ContactModal({
         }
     };
 
-    console.log(contact);
-
     const handleClose = () => {
         if (modalTypes === 'create') {
             reset();

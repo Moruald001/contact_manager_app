@@ -13,7 +13,6 @@ export default function Dashboard({ contacts }) {
     const [modalTypes, setModaltypes] = useState('create');
     const { props } = usePage();
     const message = props.flash?.success;
-    console.log(props);
 
     const handleCreate = () => {
         setModaltypes('create');
