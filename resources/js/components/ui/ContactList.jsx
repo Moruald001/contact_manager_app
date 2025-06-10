@@ -51,6 +51,10 @@ export default function ContactList({ contacts, onEdit }) {
                 ...prev,
                 [foundContact.id]: foundContact,
             }));
+        } else {
+            setMessage('Aucun contact trouvé avec ce nom');
+            setContactsFound({});
+            return;
         }
     };
 
